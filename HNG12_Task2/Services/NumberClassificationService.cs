@@ -39,6 +39,8 @@ public class NumberClassificationService : INumberClassificationService
 
     private bool IsPerfect(int number)
     {
+        if (number == 0) return false;
+
         int sum = 0;
         for (int i = 1; i <= number / 2; i++)
         {

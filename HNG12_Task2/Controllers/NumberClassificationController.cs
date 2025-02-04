@@ -18,13 +18,19 @@ public class NumberClassificationController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> ClassifyNumber([FromQuery] NumberClassificationRequest request)
     {
+        Response.Headers.Clear();
+
+        Response.ContentType = "application/json";
+
         if (!int.TryParse(request.Number.ToString(), out int parsedNumber))
         {
-            return BadRequest(new { 
-                number = "The number must be a valid integer.", error = true });
+            return new JsonResult(new { number = "The number must be a valid integer.", error = true })
+            {
+                StatusCode = 400
+            };
         }
 
         var response = await _numberClassificationService.ClassifyNumberAsync(parsedNumber);
-        return Ok(response);
-    }
+        return new JsonResult(response);
+    }    
 }
