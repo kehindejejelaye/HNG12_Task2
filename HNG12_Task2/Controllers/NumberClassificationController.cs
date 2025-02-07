@@ -16,13 +16,13 @@ public class NumberClassificationController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> ClassifyNumber([FromQuery] NumberClassificationRequest request)
+    public async Task<IActionResult> ClassifyNumber([FromQuery] string number)
     {
         Response.Headers.Clear();
 
         Response.ContentType = "application/json";
 
-        if (!int.TryParse(request.Number.ToString(), out int parsedNumber))
+        if (!int.TryParse(number, out int parsedNumber))
         {
             return new JsonResult(new { number = "The number must be a valid integer.", error = true })
             {

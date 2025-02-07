@@ -29,6 +29,7 @@ public class NumberClassificationService : INumberClassificationService
     private bool IsPrime(int number)
     {
         if (number <= 1) return false;
+
         for (int i = 2; i <= Math.Sqrt(number); i++)
         {
             if (number % i == 0)
@@ -39,7 +40,7 @@ public class NumberClassificationService : INumberClassificationService
 
     private bool IsPerfect(int number)
     {
-        if (number == 0) return false;
+        if (number <= 0) return false;
 
         int sum = 0;
         for (int i = 1; i <= number / 2; i++)
@@ -58,15 +59,21 @@ public class NumberClassificationService : INumberClassificationService
             properties.Add("armstrong");
 
         if (number % 2 == 0)
+        {
             properties.Add("even");
+        }
         else
+        {
             properties.Add("odd");
+        }
 
         return properties;
     }
 
     private bool IsArmstrong(int number)
     {
+        if (number < 0) return false; 
+
         var digits = number.ToString().Select(d => int.Parse(d.ToString())).ToList();
         int sum = digits.Sum(d => (int)Math.Pow(d, digits.Count));
         return sum == number;
@@ -74,7 +81,8 @@ public class NumberClassificationService : INumberClassificationService
 
     private int CalculateDigitSum(int number)
     {
-        return number.ToString().Sum(digit => int.Parse(digit.ToString()));
+        // Sum of digits should be handled normally for negative numbers, but absolute value is taken to avoid issues
+        return Math.Abs(number).ToString().Sum(digit => int.Parse(digit.ToString()));
     }
 
     private async Task<string> GetFunFact(int number)
